@@ -27,3 +27,4 @@ def logMessage(level: str | int = 10,content=None):
             log.error(content)
         case 'critical' | 50:
             log.critical(content)
+                        
