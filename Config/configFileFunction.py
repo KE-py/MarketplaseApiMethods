@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import openpyxl
 from json import load
-from configLog import logEventHandler, logMessage
+from .configLog import logEventHandler, logMessage
 
 class Marketplace():
     def __init__(self, mp):
@@ -34,14 +34,14 @@ def getPath(directory: str ='\Data\Reports', filename: str = 'Unknow_report'):
     return os.getcwd()+directory+f"\{filename}"      
         
 @logEventHandler
-def getWriteDataToExcel(filename: str | None = None, conten: list = None):
+def getWriteDataToExcel(filename: str | list | None = None, content: list = None,sheet_name: str | list ='Data', mode: str = 'w'):
     filePath = getPath(directory='\Data\Reports', filename=filename)+".xlsx"
     dfData = []
-    dfColumns = list(conten[0].keys())
-    for order in conten:
+    dfColumns = list(content[0].keys())
+    for order in content:
         x = list(order.values())
         dfData.append(x)
     df = pd.DataFrame(data=dfData,columns=dfColumns)
-    df.to_excel(filePath, sheet_name='Data',index=False)
+    with pd.ExcelWriter(filePath, mode = mode) as writer:
+        df.to_excel(writer, sheet_name=sheet_name, index=False)
     logMessage(level=25, content='[SUCCESS] Отчет успешно сформирован')
-    
