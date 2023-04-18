@@ -34,6 +34,7 @@ def reportOzonOrders(dateFrom: str = "2023-01-01T00:00:00Z", dateTo: str = datet
                             sheet_name='Товары', 
                             mode='a')
 
+@logEventHandler
 def parsereportOzonOrders(orders: list = None):
     outputOrderList = []
     outputProductList = []
@@ -74,12 +75,10 @@ def parsereportOzonOrders(orders: list = None):
                     '% скидки': finProduct[i]['total_discount_percent'],
                     'Количество': finProduct[i]['quantity'],
                     'Цена для клиета': finProduct[i]['client_price'],
-                    'Цена.product': product[i]['price'],
                     'Артикул.product': product[i]['offer_id'],
                     'Наименование.product': product[i]['name'],
                     'SKU.product': product[i]['sku'],
                     'количество.product': product[i]['quantity'],
-                    'CIS.product': product[i]['mandatory_mark'],
                     'Последняя миля': finProduct[i]['item_services']["marketplace_service_item_fulfillment"],
                     'Магистраль': finProduct[i]['item_services']["marketplace_service_item_pickup"],
                     'Обработка отправления на ФФ складе': finProduct[i]['item_services']["marketplace_service_item_dropoff_pvz"],
@@ -100,4 +99,4 @@ def parsereportOzonOrders(orders: list = None):
 
 
 if __name__=='__main__':
-    reportOzonOrders()    
+    reportOzonOrders()
